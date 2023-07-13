@@ -1,7 +1,7 @@
 // import { User } from "../modals/userModal";
 
-import { Schema,model } from "mongoose";
-interface User{
+import { Schema,model,Document } from "mongoose";
+interface User extends Document{
     name:string;
     email:string;
     password:string;
