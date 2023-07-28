@@ -1,16 +1,20 @@
 import UserModel from "../models/UserModel";
+import * as bcrypt from 'bcrypt';
 import {Request,Response,NextFunction} from 'express';
-import {User} from '../modals/userModal';
 
 export const createUser=async(req:Request,res:Response,next:NextFunction)=>{
-    try{
-        const newUser=new UserModel<User>({
-            name:'mohini',
-            email:'mohini@gmail.com',
-            password:'1234',
-            confirmpassword:'1234',
-            pancard:'SDGSGSDGSD',
-            phone:457575687,
+    const {name,email,password,confirmpassword,pancard,phone}=req.body;
+
+             
+                let hashPassword=await bcrypt.hash(password,12);
+                console.log(hashPassword);
+                try{
+        
+        const newUser=new UserModel({
+            name,email,
+            password:hashPassword,
+            confirmpassword:hashPassword,
+            pancard,phone
         })
         await newUser.save();
         return res.send('Added successfully');
