@@ -29,10 +29,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.createUser = void 0;
 const UserModel_1 = __importDefault(require("../models/UserModel"));
 const bcrypt = __importStar(require("bcrypt"));
+const AccountModel_1 = __importDefault(require("../models/AccountModel"));
 const createUser = async (req, res, next) => {
     const { name, email, password, confirmpassword, pancard, phone } = req.body;
     let hashPassword = await bcrypt.hash(password, 12);
-    console.log(hashPassword);
+    if (!email || password === confirmpassword) {
+    }
     try {
         const newUser = new UserModel_1.default({
             name, email,
@@ -40,6 +42,14 @@ const createUser = async (req, res, next) => {
             confirmpassword: hashPassword,
             pancard, phone
         });
+        const newAccount = new AccountModel_1.default({
+            email,
+            accountBalance: 1000,
+            savingBalance: 0,
+            expenseBalance: 0,
+            investmentBalance: 0,
+        });
+        await newAccount.save();
         await newUser.save();
         return res.send('Added successfully');
     }
