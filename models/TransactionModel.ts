@@ -4,7 +4,7 @@ interface Trans{
     name:string;
     type:string;
     amount:number;
-    date:date;
+    transdate:Date;
 }
 
 const TransactionModel=new Schema<Trans>({
@@ -20,10 +20,10 @@ const TransactionModel=new Schema<Trans>({
         type:Number,
         required:true
     },
-    date:{
+    transdate:{
         type:Date,
-        required:Date.now()
+        required:true
     },
 })
 
-exports default model<Trans>('TransactionModel',TransactionModel);
+export default model<Trans>('TransactionModel',TransactionModel);

@@ -26,21 +26,24 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createUser = void 0;
+exports.getUser = exports.createUser = void 0;
 const UserModel_1 = __importDefault(require("../models/UserModel"));
 const bcrypt = __importStar(require("bcrypt"));
 const AccountModel_1 = __importDefault(require("../models/AccountModel"));
 const createUser = async (req, res, next) => {
     const { name, email, password, confirmpassword, pancard, phone } = req.body;
+    console.log(req.body);
     let hashPassword = await bcrypt.hash(password, 12);
     if (!email || password === confirmpassword) {
     }
     try {
         const newUser = new UserModel_1.default({
-            name, email,
+            name,
+            email,
             password: hashPassword,
             confirmpassword: hashPassword,
-            pancard, phone
+            pancard,
+            phone
         });
         const newAccount = new AccountModel_1.default({
             email,
@@ -58,3 +61,12 @@ const createUser = async (req, res, next) => {
     }
 };
 exports.createUser = createUser;
+const getUser = async (req, res) => {
+    try {
+        return res.json(await UserModel_1.default.find());
+    }
+    catch (err) {
+        console.log(err);
+    }
+};
+exports.getUser = getUser;

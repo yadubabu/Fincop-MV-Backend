@@ -14,10 +14,9 @@ const TransactionModel = new mongoose_1.Schema({
         type: Number,
         required: true
     },
-    date: {
+    transdate: {
         type: Date,
-        required: Date.now()
+        required: true
     },
 });
-exports;
-(0, mongoose_1.model)('TransactionModel', TransactionModel);
+exports.default = (0, mongoose_1.model)('TransactionModel', TransactionModel);
