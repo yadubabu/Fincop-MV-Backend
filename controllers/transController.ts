@@ -1,8 +1,8 @@
 import TransactionModel from '../models/TransactionModel';
 import {Request,Response,NextFunction} from 'express';
-
+import AccountModel from '../models/AccountModel';
 export const addTrans=async(req:Request,res:Response,next:NextFunction)=>{
-    const {name,type,amount,date}=req.body;
+    const {name,type,amount,transdate}=req.body;
            
      
         try{
@@ -11,11 +11,25 @@ export const addTrans=async(req:Request,res:Response,next:NextFunction)=>{
             name,
             type,
             amount,
-            date,
+            transdate,
         });
        
         await newTrans.save();
-        return res.send('Added successfully');
+        const getTotals = await AccountModel.find();
+
+   
+
+        return res.send('New Transaction is added successfully');
+    }
+    catch(err){
+        console.log(err);
+        
+    }
+}
+
+export const getTrans=async(req:Request,res:Response,next:NextFunction)=>{
+    try{
+        return res.json(await TransactionModel.find())
     }
     catch(err){
         console.log(err);
