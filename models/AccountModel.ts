@@ -2,10 +2,10 @@ import {Schema,model,Document} from 'mongoose';
 
 interface Account extends Document{
     email:string,
-    accountBalance:number,
-    savingBalance:number,
-    expenseBalance:number,
-    investmentBalance:number,
+    totalAccBalance:number,
+    totalSavings:number,
+    totalExpense:number,
+    totalInvestment:number,
 
 }
 
@@ -15,19 +15,19 @@ const AccountModel=new Schema<Account>({
         required:true,
         unique:true,
     },
-    accountBalance:{
+    totalAccBalance:{
         type:Number,
         required:true,
     },
-    savingBalance:{
+    totalSavings:{
         type:Number,
         required:true,
     },
-    expenseBalance:{
+    totalExpense:{
         type:Number,
         required:true,
     },
-    investmentBalance:{
+    totalInvestment:{
         type:Number,
         required:true,
     }
