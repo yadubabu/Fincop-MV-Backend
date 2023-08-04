@@ -4,6 +4,7 @@ import AccountModel from '../models/AccountModel';
 import {Request,Response,NextFunction} from 'express';
 
 export const createUser=async(req:Request,res:Response,next:NextFunction)=>{
+    
     const {name,email,password,confirmpassword,pancard,phone}=req.body;
          console.log(req.body);
       let hashPassword=await bcrypt.hash(password,12);
@@ -37,8 +38,26 @@ export const createUser=async(req:Request,res:Response,next:NextFunction)=>{
 }
 
 export const getUser=async(req:Request,res:Response)=>{
+    
     try{
        return res.json(await UserModel.find()); 
+    }
+    catch(err){
+        console.log(err);
+        
+    }
+}
+
+export const loginuser=async(req:Request,res:Response)=>{
+    const {email,pass}=req.body;
+    try{
+        let existUser=await UserModel.findOne({email});
+        const checkUser:any=existUser?.password.toString();
+        
+         let compareUser=await bcrypt.compare(pass,checkUser);
+        if(compareUser){
+            return res.json(existUser?.name);
+        }
     }
     catch(err){
         console.log(err);
